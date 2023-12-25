@@ -1,0 +1,221 @@
+USE [Manage_Library]
+GO
+
+/****** Object:  Table [dbo].[Manage_Author]    Script Date: 12/25/2023 2:11:57 PM ******/
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Manage_Author]') AND type in (N'U'))
+DROP TABLE [dbo].[Manage_Author]
+GO
+
+/****** Object:  Table [dbo].[Manage_Author]    Script Date: 12/25/2023 2:11:57 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[Manage_Author](
+	[maTacGia] [nchar](10) NOT NULL,
+	[tenTacGia] [nchar](20) NULL,
+ CONSTRAINT [PK_Manage_Author] PRIMARY KEY CLUSTERED 
+(
+	[maTacGia] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+//
+USE [Manage_Library]
+GO
+
+ALTER TABLE [dbo].[Manage_Book] DROP CONSTRAINT [FK_Manage_Book_Manage_NXB]
+GO
+
+ALTER TABLE [dbo].[Manage_Book] DROP CONSTRAINT [FK_Manage_Book_Manage_Author]
+GO
+
+/****** Object:  Table [dbo].[Manage_Book]    Script Date: 12/25/2023 2:12:20 PM ******/
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Manage_Book]') AND type in (N'U'))
+DROP TABLE [dbo].[Manage_Book]
+GO
+
+/****** Object:  Table [dbo].[Manage_Book]    Script Date: 12/25/2023 2:12:20 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[Manage_Book](
+	[maSach] [nchar](10) NOT NULL,
+	[tenSach] [char](10) NULL,
+	[namXuatBan] [int] NULL,
+	[theLoai] [char](10) NULL,
+	[maTacGia] [nchar](10) NULL,
+	[maNXB] [nchar](10) NULL,
+	[soLuong] [int] NULL,
+ CONSTRAINT [PK_Manage_Book] PRIMARY KEY CLUSTERED 
+(
+	[maSach] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+ALTER TABLE [dbo].[Manage_Book]  WITH CHECK ADD  CONSTRAINT [FK_Manage_Book_Manage_Author] FOREIGN KEY([maTacGia])
+REFERENCES [dbo].[Manage_Author] ([maTacGia])
+GO
+
+ALTER TABLE [dbo].[Manage_Book] CHECK CONSTRAINT [FK_Manage_Book_Manage_Author]
+GO
+
+ALTER TABLE [dbo].[Manage_Book]  WITH CHECK ADD  CONSTRAINT [FK_Manage_Book_Manage_NXB] FOREIGN KEY([maNXB])
+REFERENCES [dbo].[Manage_NXB] ([maNXB])
+GO
+
+ALTER TABLE [dbo].[Manage_Book] CHECK CONSTRAINT [FK_Manage_Book_Manage_NXB]
+GO
+
+//
+USE [Manage_Library]
+GO
+
+ALTER TABLE [dbo].[Manage_Date] DROP CONSTRAINT [FK_Manage_Date_Manage_TemBorrow]
+GO
+
+/****** Object:  Table [dbo].[Manage_Date]    Script Date: 12/25/2023 2:12:45 PM ******/
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Manage_Date]') AND type in (N'U'))
+DROP TABLE [dbo].[Manage_Date]
+GO
+
+/****** Object:  Table [dbo].[Manage_Date]    Script Date: 12/25/2023 2:12:45 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[Manage_Date](
+	[maPhieuMuon] [nchar](10) NOT NULL,
+	[maSach] [nchar](10) NULL,
+	[ngayMuon] [date] NOT NULL,
+	[ngayTra] [date] NULL,
+	[ghiChu] [nchar](30) NULL,
+	[soLuong] [int] NULL,
+	[maDocGia] [nchar](10) NULL,
+	[STT] [int] NOT NULL,
+ CONSTRAINT [PK_Manage_Date_1] PRIMARY KEY CLUSTERED 
+(
+	[STT] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+ALTER TABLE [dbo].[Manage_Date]  WITH CHECK ADD  CONSTRAINT [FK_Manage_Date_Manage_TemBorrow] FOREIGN KEY([maDocGia])
+REFERENCES [dbo].[Manage_TemBorrow] ([maDocGia])
+GO
+
+ALTER TABLE [dbo].[Manage_Date] CHECK CONSTRAINT [FK_Manage_Date_Manage_TemBorrow]
+GO
+
+//
+USE [Manage_Library]
+GO
+
+/****** Object:  Table [dbo].[Manage_NXB]    Script Date: 12/25/2023 2:12:58 PM ******/
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Manage_NXB]') AND type in (N'U'))
+DROP TABLE [dbo].[Manage_NXB]
+GO
+
+/****** Object:  Table [dbo].[Manage_NXB]    Script Date: 12/25/2023 2:12:58 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[Manage_NXB](
+	[maNXB] [nchar](10) NOT NULL,
+	[diaChi] [nchar](10) NULL,
+	[tenNXB] [nchar](20) NULL,
+	[soDienThoai] [nvarchar](50) NULL,
+ CONSTRAINT [PK_Manage_NXB] PRIMARY KEY CLUSTERED 
+(
+	[maNXB] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+//
+USE [Manage_Library]
+GO
+
+/****** Object:  Table [dbo].[Manage_TemBorrow]    Script Date: 12/25/2023 2:13:09 PM ******/
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Manage_TemBorrow]') AND type in (N'U'))
+DROP TABLE [dbo].[Manage_TemBorrow]
+GO
+
+/****** Object:  Table [dbo].[Manage_TemBorrow]    Script Date: 12/25/2023 2:13:09 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[Manage_TemBorrow](
+	[maPhieuMuon] [nchar](10) NOT NULL,
+	[maDocGia] [nchar](10) NOT NULL,
+	[tenDocGia] [nchar](10) NULL,
+ CONSTRAINT [PK_Manage_TemBorrow] PRIMARY KEY CLUSTERED 
+(
+	[maDocGia] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+//
+USE [Manage_Library]
+GO
+
+ALTER TABLE [dbo].[Table_Temp] DROP CONSTRAINT [FK_Table_Temp_Manage_Date]
+GO
+
+ALTER TABLE [dbo].[Table_Temp] DROP CONSTRAINT [FK_Table_Temp_Manage_Book]
+GO
+
+/****** Object:  Table [dbo].[Table_Temp]    Script Date: 12/25/2023 2:13:23 PM ******/
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Table_Temp]') AND type in (N'U'))
+DROP TABLE [dbo].[Table_Temp]
+GO
+
+/****** Object:  Table [dbo].[Table_Temp]    Script Date: 12/25/2023 2:13:23 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[Table_Temp](
+	[maPhieuMuon] [nchar](10) NULL,
+	[maSach] [nchar](10) NULL,
+	[soLuong] [int] NOT NULL,
+	[docNhat] [nchar](30) NOT NULL,
+	[STT] [int] NULL,
+ CONSTRAINT [PK_Table_Temp] PRIMARY KEY CLUSTERED 
+(
+	[docNhat] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+ALTER TABLE [dbo].[Table_Temp]  WITH CHECK ADD  CONSTRAINT [FK_Table_Temp_Manage_Book] FOREIGN KEY([maSach])
+REFERENCES [dbo].[Manage_Book] ([maSach])
+GO
+
+ALTER TABLE [dbo].[Table_Temp] CHECK CONSTRAINT [FK_Table_Temp_Manage_Book]
+GO
+
+ALTER TABLE [dbo].[Table_Temp]  WITH CHECK ADD  CONSTRAINT [FK_Table_Temp_Manage_Date] FOREIGN KEY([STT])
+REFERENCES [dbo].[Manage_Date] ([STT])
+GO
+
+ALTER TABLE [dbo].[Table_Temp] CHECK CONSTRAINT [FK_Table_Temp_Manage_Date]
+GO
+
